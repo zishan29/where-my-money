@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import Charts from './components/Charts';
 
 type Expense = {
   merchant: string;
@@ -70,28 +71,33 @@ function App() {
         </button>
 
         {expenses.length > 0 && (
-          <table style={{ width: "100%", marginTop: "2rem", borderCollapse: "collapse" }}>
-            <thead>
-              <tr>
-                {["Merchant", "Currency", "Amount", "Category", "Date"].map(h => (
-                  <th key={h} style={{ textAlign: "left", borderBottom: "1px solid #ccc", padding: "8px" }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {expenses.map((e, i) => (
-                <tr key={i}>
-                  <td style={{ padding: "8px" }}>{e.merchant}</td>
-                  <td style={{ padding: "8px" }}>{e.currency}</td>
-                  <td style={{ padding: "8px" }}>₹{e.amount}</td>
-                  <td style={{ padding: "8px" }}>{e.category}</td>
-                  <td style={{ padding: "8px" }}>{e.date ?? "—"}</td>
+          <>
+            {/* Chart */}
+            <Charts expenses={expenses} />
+
+            <table style={{ width: "100%", marginTop: "2rem", borderCollapse: "collapse" }}>
+              <thead>
+                <tr>
+                  {["Merchant", "Currency", "Amount", "Category", "Date"].map(h => (
+                    <th key={h} style={{ textAlign: "left", borderBottom: "1px solid #ccc", padding: "8px" }}>{h}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {expenses.map((e, i) => (
+                  <tr key={i}>
+                    <td style={{ padding: "8px" }}>{e.merchant}</td>
+                    <td style={{ padding: "8px" }}>{e.currency}</td>
+                    <td style={{ padding: "8px" }}>₹{e.amount}</td>
+                    <td style={{ padding: "8px" }}>{e.category}</td>
+                    <td style={{ padding: "8px" }}>{e.date ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
         )}
-      </div>
+      </div >
     </>
 
   )
