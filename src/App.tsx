@@ -5,6 +5,8 @@ import SummaryStrip from "./components/SummaryStrip";
 import ChartsRow from "./components/ChartsRow";
 import MonthlyTrend from "./components/MonthlyTrend";
 import MerchantsAndTop from "./components/MerchantsAndTop";
+import DailyHeatmap from "./components/DailyHeatmap";
+import TransactionsTable from "./components/TransactionsTable";
 
 export default function App() {
   const [expenses, setExpenses] = useState<Expense[]>([
@@ -889,6 +891,8 @@ export default function App() {
             <ChartsRow expenses={expenses} />
             <MonthlyTrend expenses={expenses} />
             <MerchantsAndTop expenses={expenses} />
+            <DailyHeatmap expenses={expenses} />
+            <TransactionsTable expenses={expenses} />
           </div>)}
       </main>
     </div>
