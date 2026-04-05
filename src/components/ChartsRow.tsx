@@ -1,4 +1,4 @@
-import { Bar, BarChart, XAxis, YAxis, CartesianGrid } from "recharts";
+import { Bar, BarChart, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -9,6 +9,14 @@ import {
 import { type Expense } from "./Navbar";
 
 type Props = { expenses: Expense[] };
+
+const CHART_COLORS = [
+  "var(--color-chart-1)",
+  "var(--color-chart-2)",
+  "var(--color-chart-3)",
+  "var(--color-chart-4)",
+  "var(--color-chart-5)",
+];
 
 export default function ChartsRow({ expenses }: Props) {
   // Category totals (debits only)
@@ -93,12 +101,11 @@ export default function ChartsRow({ expenses }: Props) {
                 />
               }
             />
-            <Bar
-              dataKey="value"
-              fill="var(--color-value)"
-              radius={[4, 4, 0, 0]}
-              maxBarSize={48}
-            />
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={48}>
+              {categoryData.map((_, i) => (
+                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+              ))}
+            </Bar>
           </BarChart>
         </ChartContainer>
       </div>
@@ -143,12 +150,11 @@ export default function ChartsRow({ expenses }: Props) {
               radius={[4, 4, 0, 0]}
               maxBarSize={36}
             />
-            <Bar
-              dataKey="spent"
-              fill="var(--color-spent)"
-              radius={[4, 4, 0, 0]}
-              maxBarSize={36}
-            />
+            <Bar dataKey="spent" radius={[4, 4, 0, 0]} maxBarSize={36}>
+              {monthlyData.map((_, i) => (
+                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+              ))}
+            </Bar>
           </BarChart>
         </ChartContainer>
       </div>

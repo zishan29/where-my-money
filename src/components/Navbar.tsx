@@ -24,8 +24,8 @@ export default function Navbar({ onUploadClick, hasData, loading }: NavbarProps)
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <span className="text-sm font-bold text-primary-foreground">₹</span>
           </div>
-          <span className="text-sm font-semibold tracking-tight text-primary">
-            where did my money go<span className="text-secondary">?</span>
+          <span className="text-sm font-semibold tracking-tight ">
+            where did my money go<span className="text-primary">?</span>
           </span>
         </div>
 
