@@ -16,6 +16,8 @@ type Insight = {
   body: string;
 };
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function App() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(false);
@@ -27,14 +29,14 @@ export default function App() {
     formData.append("statement", file);
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/parse/upload", {
+      const res = await fetch(`${API_URL}/upload`, {
         method: "POST",
         body: formData,
       });
       const data = await res.json();
       setExpenses(data.raw);
 
-      const insightsRes = await fetch("http://localhost:3000/api/parse/insights", {
+      const insightsRes = await fetch(`${API_URL}/insights`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ expenses: data.raw }),

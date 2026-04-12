@@ -9,6 +9,8 @@ type Message = {
   content: string;
 };
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const SUGGESTIONS = [
   "How much did I spend on food?",
   "What was my biggest expense?",
@@ -35,7 +37,7 @@ export default function ChatQA({ expenses }: Props) {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/parse/chat", {
+      const res = await fetch(`${API_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: q, expenses }),
