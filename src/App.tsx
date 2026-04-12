@@ -7,6 +7,13 @@ import MonthlyTrend from "./components/MonthlyTrend";
 import MerchantsAndTop from "./components/MerchantsAndTop";
 import DailyHeatmap from "./components/DailyHeatmap";
 import TransactionsTable from "./components/TransactionsTable";
+import InsightsStrip from "./components/InsightsStrip";
+
+type Insight = {
+  type: "warning" | "positive" | "neutral" | "tip";
+  title: string;
+  body: string;
+};
 
 export default function App() {
   const [expenses, setExpenses] = useState<Expense[]>([
@@ -829,6 +836,33 @@ export default function App() {
   ]);
   const [loading, setLoading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [insights, setInsights] = useState<Insight[]>([
+    {
+      "type": "warning",
+      "title": "Net savings are minuscule",
+      "body": "Over the last three months, your net savings are a paltry ₹7,833.14 on an income of ₹2,34,022.48. That's a savings rate of just 3.3%, which is alarmingly low for building any financial security."
+    },
+    {
+      "type": "warning",
+      "title": "Where's the money going?",
+      "body": "A staggering 95.3% of your total spending, ₹2,15,572.14, is categorized under \"Financial Services\" and \"Personal Transfer.\" These massive, vague categories completely obscure your true spending habits, making it impossible to analyze your finances properly."
+    },
+    {
+      "type": "warning",
+      "title": "February in the red",
+      "body": "You significantly overspent in February 2026, with expenses of ₹96,756.59 exceeding your income of ₹86,407.23 by ₹10,349.36. This negative cash flow is a serious red flag and needs immediate attention."
+    },
+    {
+      "type": "neutral",
+      "title": "Consistent personal payouts",
+      "body": "You're regularly sending money to specific individuals, notably ₹3,308 three times to 'Zuberali Jaffarali S' and ₹100 five times to 'Tabrez Alam.' Understanding the nature of these recurring transfers—whether they're loans, support, or repayments—is crucial."
+    },
+    {
+      "type": "tip",
+      "title": "Clarify 'big bucket' spending",
+      "body": "Your most urgent task is to break down \"Financial Services\" (₹1,03,014.31) and \"Personal Transfer\" debits (₹1,12,557.83) into precise sub-categories. Without knowing if these are loan EMIs, investments, or family support, you're flying blind with your budget."
+    }
+  ]);
 
   async function handleFile(file: File) {
     const formData = new FormData();
@@ -841,6 +875,14 @@ export default function App() {
       });
       const data = await res.json();
       setExpenses(data.raw);
+
+      const insightsRes = await fetch("http://localhost:3000/api/parse/insights", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ expenses: data.raw }),
+      });
+      const insightsData = await insightsRes.json();
+      setInsights(insightsData.insights);
     } finally {
       setLoading(false);
     }
@@ -888,6 +930,7 @@ export default function App() {
         ) : (
           <div>
             <SummaryStrip expenses={expenses} />
+            <InsightsStrip insights={insights} />
             <ChartsRow expenses={expenses} />
             <MonthlyTrend expenses={expenses} />
             <MerchantsAndTop expenses={expenses} />
