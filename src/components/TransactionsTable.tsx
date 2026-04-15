@@ -4,9 +4,9 @@ import { type Expense } from "./Navbar";
 
 type Props = { expenses: Expense[] };
 
-const CATEGORIES = ["All", "Food", "Transport", "Shopping", "Entertainment",
-  "Utilities", "Healthcare", "Education", "Investment",
-  "Salary", "Personal Transfer", "Financial Services"];
+// const CATEGORIES = ["All", "Food", "Transport", "Shopping", "Entertainment",
+//   "Utilities", "Healthcare", "Education", "Investment",
+//   "Salary", "Personal Transfer", "Financial Services"];
 
 export default function TransactionsTable({ expenses }: Props) {
   const [filter, setFilter] = useState("All");

@@ -52,10 +52,10 @@ export default function App() {
     fileRef.current?.click();
   }
 
-  const categoryTotals = expenses.reduce((acc, e) => {
-    acc[e.category] = (acc[e.category] ?? 0) + e.amount;
-    return acc;
-  }, {} as Record<string, number>);
+  // const categoryTotals = expenses.reduce((acc, e) => {
+  //   acc[e.category] = (acc[e.category] ?? 0) + e.amount;
+  //   return acc;
+  // }, {} as Record<string, number>);
 
   // const chartData = Object.entries(categoryTotals)
   //   .map(([name, value]) => ({ name, value }))
