@@ -9,6 +9,7 @@ import DailyHeatmap from "./components/DailyHeatmap";
 import TransactionsTable from "./components/TransactionsTable";
 import InsightsStrip from "./components/InsightsStrip";
 import ChatQA from "./components/ChatQA";
+import LoadingSkeleton from "./components/LoadingSkeleton";
 
 type Insight = {
   type: "warning" | "positive" | "neutral" | "tip";
@@ -85,10 +86,12 @@ export default function App() {
       />
 
       <main className="mx-auto max-w-7xl px-6 pt-24">
-        {expenses.length === 0 ? (
+        {loading ? (
+          <LoadingSkeleton />
+        ) : expenses.length === 0 ? (
           <EmptyState onUploadClick={triggerUpload} />
         ) : (
-          <div>
+          <div className="space-y-6 py-8">
             <SummaryStrip expenses={expenses} />
             <InsightsStrip insights={insights} />
             <ChatQA expenses={expenses} />
@@ -97,7 +100,8 @@ export default function App() {
             <MerchantsAndTop expenses={expenses} />
             <DailyHeatmap expenses={expenses} />
             <TransactionsTable expenses={expenses} />
-          </div>)}
+          </div>
+        )}
       </main>
     </div>
   );

@@ -42,15 +42,21 @@ export default function Navbar({ onUploadClick, hasData, loading }: NavbarProps)
               soon
             </span>            </span>
         </div>
-
-        <Button
-          onClick={onUploadClick}
-          disabled={loading}
-          className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-        >
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-          {loading ? "Analyzing..." : hasData ? "Upload New" : "Upload Statement"}
-        </Button>
+        {loading ? (
+          <div className="flex items-center gap-2">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span className="text-sm text-muted-foreground">Analyzing...</span>
+          </div>
+        ) : (
+          <Button
+            onClick={onUploadClick}
+            disabled={loading}
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+            {loading ? "Analyzing..." : hasData ? "Upload New" : "Upload Statement"}
+          </Button>
+        )}
       </div>
     </nav>
   );
