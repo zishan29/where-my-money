@@ -58,7 +58,7 @@ A stateless, AI-powered bank statement analyzer. Upload a PDF, get instant spend
 ### Install and run
 
 ```bash
-git clone https://github.com/yourusername/where-my-money-frontend
+git clone https://github.com/zishan29/where-my-money-frontend
 cd where-my-money-frontend
 pnpm install
 pnpm dev
