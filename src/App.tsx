@@ -24,6 +24,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [insights, setInsights] = useState<Insight[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   async function handleFile(file: File) {
     const formData = new FormData();
@@ -95,11 +96,13 @@ export default function App() {
             <SummaryStrip expenses={expenses} />
             <InsightsStrip insights={insights} />
             <ChatQA expenses={expenses} />
-            <ChartsRow expenses={expenses} />
+            <ChartsRow expenses={expenses} onCategoryClick={setSelectedCategory}
+              selectedCategory={selectedCategory} />
             <MonthlyTrend expenses={expenses} />
             <MerchantsAndTop expenses={expenses} />
             <DailyHeatmap expenses={expenses} />
-            <TransactionsTable expenses={expenses} />
+            <TransactionsTable expenses={expenses} selectedCategory={selectedCategory}
+              onClearCategory={() => setSelectedCategory(null)} />
           </div>
         )}
       </main>

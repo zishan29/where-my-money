@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpDown, TrendingDown, TrendingUp } from "lucide-react";
 import { type Expense } from "./Navbar";
 
-type Props = { expenses: Expense[] };
+type Props = {
+  expenses: Expense[];
+  selectedCategory: string | null;
+  onClearCategory: () => void;
+};
 
 // const CATEGORIES = ["All", "Food", "Transport", "Shopping", "Entertainment",
 //   "Utilities", "Healthcare", "Education", "Investment",
 //   "Salary", "Personal Transfer", "Financial Services"];
 
-export default function TransactionsTable({ expenses }: Props) {
+export default function TransactionsTable({ expenses, selectedCategory, onClearCategory }: Props) {
   const [filter, setFilter] = useState("All");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [sortKey, setSortKey] = useState<"amount" | "date">("date");
 
   const fmt = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+
+  useEffect(() => {
+    if (selectedCategory) setFilter(selectedCategory);
+  }, [selectedCategory]);
 
   const filtered = expenses
     .filter((e) => filter === "All" || e.category === filter)
@@ -41,26 +49,39 @@ export default function TransactionsTable({ expenses }: Props) {
           <h3 className="text-sm font-semibold text-foreground">Transactions</h3>
           <p className="text-xs text-muted-foreground">{filtered.length} of {expenses.length} transactions</p>
         </div>
-      </div>
+        {selectedCategory && (
+          <button
+            onClick={() => {
+              onClearCategory();
+              setFilter("All");
+            }}
+            className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
+          >
+            {selectedCategory} ✕
+          </button>
+        )}
+      </div >
 
       {/* Category filter pills */}
-      <div className="mb-4 flex flex-wrap gap-2">
-        {activeCategories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === cat
-              ? "bg-primary text-primary-foreground"
-              : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+      < div className="mb-4 flex flex-wrap gap-2" >
+        {
+          activeCategories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === cat
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+            >
+              {cat}
+            </button>
+          ))
+        }
+      </div >
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      < div className="overflow-x-auto" >
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border">
@@ -119,7 +140,7 @@ export default function TransactionsTable({ expenses }: Props) {
             ))}
           </tbody>
         </table>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

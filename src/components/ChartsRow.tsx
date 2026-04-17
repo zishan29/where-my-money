@@ -8,7 +8,11 @@ import {
 } from "../components/ui/chart";
 import { type Expense } from "./Navbar";
 
-type Props = { expenses: Expense[] };
+type Props = {
+  expenses: Expense[],
+  onCategoryClick: (category: string) => void;
+  selectedCategory: string | null;
+};
 
 const CHART_COLORS = [
   "var(--color-chart-1)",
@@ -18,7 +22,7 @@ const CHART_COLORS = [
   "var(--color-chart-5)",
 ];
 
-export default function ChartsRow({ expenses }: Props) {
+export default function ChartsRow({ expenses, onCategoryClick, selectedCategory }: Props) {
   // Category totals (debits only)
   const categoryMap = expenses
     .filter((e) => e.type === "debit")
@@ -101,9 +105,12 @@ export default function ChartsRow({ expenses }: Props) {
                 />
               }
             />
-            <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={48}>
-              {categoryData.map((_, i) => (
-                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+            <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={48}
+              onClick={(data) => onCategoryClick(data.name as string)}
+              cursor="pointer">
+              {categoryData.map((entry, i) => (
+                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]}
+                  opacity={selectedCategory && selectedCategory !== entry.name ? 0.3 : 1} />
               ))}
             </Bar>
           </BarChart>
